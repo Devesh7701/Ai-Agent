@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Research AI Agent</title>
+</head>
+<body>
+    <h1>Market Research AI Agent</h1>
+    <form id="questionnaire">
+        <div id="questions"></div>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="response" style="margin-top: 20px;"></div>
+
+    <script>
+        const questions = [
+            "What is your age group? (e.g., 18-25, 26-35, etc.)",
+            "What is your primary occupation?",
+            "What type of products or services do you usually purchase online?",
+            "How often do you make online purchases? (e.g., weekly, monthly, rarely)",
+            "What factors influence your buying decisions the most? (e.g., price, quality, reviews)"
+        ];
+
+        const questionsDiv = document.getElementById('questions');
+        questions.forEach((q, index) => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <label>${q}</label><br>
+                <input type="text" id="q${index}" required><br><br>
+            `;
+            questionsDiv.appendChild(div);
+        });
+
+        document.getElementById('questionnaire').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const responses = questions.map((_, index) => document.getElementById(`q${index}`).value);
+            const res = await fetch('/ask_questions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ responses })
+            });
+            const data = await res.json();
+            document.getElementById('response').innerText = data.ai_response || data.error;
+        });
+    </script>
+</body>
+</html>
