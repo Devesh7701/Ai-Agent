@@ -88,12 +88,10 @@ def summarize_website(website_url):
     print("Website Summary:", response)
     return response
 
-def analyze_website():
-    """
-    Conducts a website analysis and processes JSON-based function responses.
-    """
+def analyze():
+    name = input("In which field you want me to analyze: ")
     user_prompt = (
-        "Conduct a search for the latest advancements in marketing and give the full analysis report in bullet points."
+         f"Conduct a search for the latest advancements in {name} and give the full analysis report in bullet points."
     )
 
     messages = [
@@ -178,4 +176,4 @@ def analyze_website():
 
 if __name__ == "__main__":
     # website_url = input("Enter a website URL to analyze: ")
-    analyze_website()
+    analyze()
